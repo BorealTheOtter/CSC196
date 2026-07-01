@@ -4,4 +4,5 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="HelloWorld/HelloWorld.vcxproj" Id="59f6f0f6-51de-4c9b-b778-d6e9175ea234" />
+  <Project Path="sring_review/sring_review.vcxproj" Id="45a5ee39-3202-49b7-9b2a-5934f14f5ceb" />
 </Solution>
