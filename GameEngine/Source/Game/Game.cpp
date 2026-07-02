@@ -1,26 +1,14 @@
 #include "SDL3/SDL.h"
+#include "Engine.h"
 
 #include <iostream>
 
 
 int main()
 {
-    SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
+    sr::Renderer renderer;
+    
+    renderer.Initialize("Game Engine", 1920, 1080);
 
     SDL_Event e;
     bool quit = false;
@@ -35,29 +23,24 @@ int main()
             }
         }
 
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Set render draw color to black
-        SDL_RenderClear(renderer); // Clear the renderer
+		renderer.SetColor(0, 0, 0);
+		renderer.Clear();
         
         
-        for (int i = 0; i < 1000; ++i) {
-            SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, 255);
-            SDL_RenderPoint(renderer, rand() % 1280, rand() % 1024);
-        }
 
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-        SDL_RenderFillRect(renderer, &greenSquare); // Render the rectangle
+        
+        renderer.SetColor(0, 255, 0);
+        renderer.DrawFillRect(270, 190, 200, 200);
 
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-		SDL_RenderDebugText(renderer, 50, 50, "Hello World!"); // Render debug text
+        renderer.SetColor(255, 255, 255);
 
-        SDL_RenderPresent(renderer); // Render the screen
+        renderer.DebugText(50, 50, "Hello World!");
+
+        renderer.Present();
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    renderer.Quit();
 
     return 0;
 
