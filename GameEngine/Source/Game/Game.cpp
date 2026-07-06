@@ -29,13 +29,24 @@ int main()
         
 
         
-        renderer.SetColor(0, 255, 0);
-        renderer.DrawFillRect(270, 190, 200, 200);
+      
+        
 
 
-        renderer.SetColor(255, 255, 255);
+        for (int i = 0; i < 10; ++i) {
+            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256);
+			renderer.DrawLine(rand() % 1920, rand() % 1080, rand() % 1920, rand() % 1080);
+        }
 
-        renderer.DebugText(50, 50, "Hello World!");
+        for (int i = 0; i < 20; ++i) {
+            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256);
+            renderer.DrawPoint(rand() % 1920, rand() % 1080);
+        }
+
+        for (int i = 0; i < 5; ++i) {
+            renderer.SetColor(rand() % 256, rand() % 256, rand() % 256);
+            renderer.DrawFillRect(rand() % 1920, rand() % 1080, rand() % 960, rand() % 540);
+        }
 
         renderer.Present();
     }
