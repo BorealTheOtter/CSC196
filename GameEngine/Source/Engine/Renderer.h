@@ -8,6 +8,7 @@ namespace sr
 	public:
 		bool Initialize(const char* name, int width, int height);
 		void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
+		void SetColorF(float r, float g, float b, float a = 1.0f);
 		void Clear();
 		void DrawPoint(float x, float y);
 		void DrawFillRect(float x, float y, float width, float height); 
