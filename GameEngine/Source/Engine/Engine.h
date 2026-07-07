@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Renderer.h"
 #include "Vector2.h"
-
 #include "Random.h"
+
+#include "Input.h"
+#include "Renderer.h"
 
 #include <iostream>
 #include <vector>
