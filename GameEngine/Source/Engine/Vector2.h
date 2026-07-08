@@ -31,7 +31,7 @@ namespace sr
 		Vector2 operator *= (float s) { this->x *= s; this->y *= s; return *this; }
 		Vector2 operator /= (float s) { this->x /= s; this->y /= s; return *this; }
 
-		float LengthSqr() const { return pow(x, 2) + pow(y, 2); }
+		float LengthSqr() const { return (float)(pow(x, 2) + pow(y, 2)); }
 		float Length() const { return sqrt(LengthSqr()); }
 	};
 }

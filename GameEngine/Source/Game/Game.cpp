@@ -6,6 +6,7 @@ int main()
     //INITIALIZE
     sr::Renderer renderer;
 	sr::Input input;
+    sr::Time time;
 
     int width = 1920;
     int height = 1080;
@@ -13,14 +14,13 @@ int main()
     renderer.Initialize("Game Engine", width, height);
 	input.Initialize();
 
-    sr::Vector2 vel{ 0.5f, 0.0f };
-	std::vector<sr::Vector2> v;
+    
+	std::vector<sr::Vector2> points;
 
-	
-	
+    sr::Vector2 pos{ (float)(width/2), (float)(height/2) };
 
 	for (size_t i = 0; i < 3000; ++i) {
-        v.push_back(sr::Vector2{ sr::RandomFloat((float)width), sr::RandomFloat((float)height) });
+        points.push_back(sr::Vector2{ sr::RandomFloat((float)width), sr::RandomFloat((float)height) });
 	}
     
     //MAIN LOOP
@@ -39,33 +39,45 @@ int main()
         }
 
 		input.Update();
-
-        //RENDER
-		renderer.SetColor(0, 0, 0);
-        renderer.Clear();
+        time.Tick();
+ 
+	
+        
+		float dt = time.GetDeltaTime();
       
-        if (input.GetKeyPressed(SDL_SCANCODE_SPACE)) { std::cout << "Pressed" << std::endl; }
-        if (input.GetKeyDown(SDL_SCANCODE_SPACE)) { std::cout << "Down" << std::endl; }
-        if (input.GetKeyReleased(SDL_SCANCODE_SPACE)) { std::cout << "" << std::endl; }
-        //for (int i = 0; i < 5; ++i) {
-        //    renderer.SetColor(sr::RandomInt(256), sr::RandomInt(256), sr::RandomInt(256));
-        //    renderer.DrawFillRect((float)(sr::RandomInt(1920)), (float)(sr::RandomInt(1080)), (float)(sr::RandomInt(960)), (float)(sr::RandomInt(540)));
-        //}
+  //      if (input.GetKeyPressed(SDL_SCANCODE_SPACE)) { std::cout << "Pressed" << std::endl; }
+  //      if (input.GetKeyDown(SDL_SCANCODE_SPACE)) { std::cout << "Down" << std::endl; }
+  //      if (input.GetKeyReleased(SDL_SCANCODE_SPACE)) { std::cout << "Released" << std::endl; }
 
-        //for (int i = 0; i < 10; ++i) {
-        //    renderer.SetColor(sr::RandomInt(256), sr::RandomInt(256), sr::RandomInt(256));
-		//	renderer.DrawLine((float)(sr::RandomInt(1920)), (float)(sr::RandomInt(1080)), (float)(sr::RandomInt(1920)), (float)(sr::RandomInt(1080)));
-        //}
+  //      if (input.GetMousePressed(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Pressed" << std::endl; }
+  //      if (input.GetMouseDown(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Down" << std::endl; }
+  //      if (input.GetMouseReleased(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Released" << std::endl; }
 
-        for (int i = 0; i < v.size(); ++i) {
+        
+        
+		if (input.GetMouseDown(sr::Input::MouseButton::LEFT)) {
+			points.push_back(input.GetMousePos());
+		}
+  
+        sr::Vector2 vel{ 0.0f, 0.0f };
+        if (input.GetKeyDown(SDL_SCANCODE_W)) { vel.y -= 400.0f; };
+        if (input.GetKeyDown(SDL_SCANCODE_A)) { vel.x -= 400.0f; };
+        if (input.GetKeyDown(SDL_SCANCODE_S)) { vel.y += 400.0f; };
+        if (input.GetKeyDown(SDL_SCANCODE_D)) { vel.x += 400.0f; };
+
+        pos += (vel * dt);
+  
+        //RENDER
+        renderer.SetColor(0, 0, 0);
+        renderer.Clear();
+
+        for (int i = 0; i < points.size(); ++i) {
             renderer.SetColor(sr::RandomInt(256), sr::RandomInt(256), sr::RandomInt(256));
-
-			//v[i] = v[i] + vel;
-            renderer.DrawPoint((float)(v[i].x), (float)(v[i].y));
+            renderer.DrawPoint((float)(points[i].x), (float)(points[i].y));
         }
 
         renderer.SetColor(255,255,255);
-		renderer.DrawFillRect(input.GetMousePos().x - 25, input.GetMousePos().y - 25, 50.0f, 50.0f);
+	    renderer.DrawFillRect(pos.x, pos.y, 50.0f, 50.0f);
 
         renderer.Present();
     }

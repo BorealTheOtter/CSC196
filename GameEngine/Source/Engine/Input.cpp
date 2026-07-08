@@ -34,5 +34,9 @@ namespace sr {
 		m_buttonStates = SDL_GetMouseState(&m_mousePos.x, &m_mousePos.y);
 
 	}
+	uint32_t Input::GetMouseBit(MouseButton button) const
+	{
+		return SDL_BUTTON_MASK((uint32_t)button);
+	}
 }
 

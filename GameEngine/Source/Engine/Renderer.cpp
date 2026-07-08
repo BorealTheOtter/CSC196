@@ -24,6 +24,9 @@ namespace sr
             SDL_Quit();
             return false;
         }
+
+		SDL_SetRenderVSync(m_renderer, 1);
+
         return true;
     }
 
