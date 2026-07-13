@@ -2,6 +2,7 @@
 
 #include "Vector2.h"
 #include "Random.h"
+#include "MathUtils.h"
 
 #include "Input.h"
 #include "Renderer.h"
