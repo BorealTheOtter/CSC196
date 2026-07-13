@@ -78,7 +78,7 @@ namespace sr
         SDL_RenderDebugText(m_renderer, x, y, text);
     }
 
-    void Renderer::Quit()
+    void Renderer::Quit() const
     {
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyWindow(m_window);
