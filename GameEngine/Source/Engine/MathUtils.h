@@ -8,9 +8,6 @@ namespace sr::math
 
 	template <typename T>
 	T Wrap(T value, T min, T max) {
-		//if (value < min) { value = max }
-		//if (value > max) { value = min }
-		//return value
 
 		return (value < min) ? max : (value > max) ? min : value;
 		
