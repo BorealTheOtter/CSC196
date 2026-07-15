@@ -146,11 +146,15 @@
   <ItemGroup>
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{b77e3cfd-2100-4e60-8f6c-453eb9b10cdc}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

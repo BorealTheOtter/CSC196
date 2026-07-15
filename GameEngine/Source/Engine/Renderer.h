@@ -1,5 +1,9 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include "Transform.h"
+#include "Model.h"
+#include "Vector3.h"
+
 
 namespace sr
 {
@@ -13,12 +17,16 @@ namespace sr
 		void Present() const;
 
 		void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) const;
-		void SetColorF(float r, float g, float b, float a = 1.0f) const;
+		void SetColor(float r, float g, float b, float a = 1.0f) const;
+		void SetColor(const Vector3& v, float a = 1.0f) const;
 
 		void DrawPoint(float x, float y) const;
 		void DrawFillRect(float x, float y, float width, float height) const; 
 		void DrawRect(float x, float y, float width, float height) const;
 		void DrawLine(float x1, float y1, float x2, float y2) const;
+
+		void DrawModel(const class Model& m, const Transform& t) const;
+		
 		
 		void DebugText(float x, float y, const char* text) const;
 

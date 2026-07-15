@@ -6,6 +6,9 @@ namespace sr::math
 	constexpr float TWO_PI = 6.283185307179586476925286766559f;
 	constexpr float HALF_PI = 1.5707963267948966192313216916398f;
 
+	constexpr float RAD_TO_DEG = 180.0f / PI;
+	constexpr float DEG_TO_RAD = PI / 180.0f;
+
 	template <typename T>
 	T Wrap(T value, T min, T max) {
 

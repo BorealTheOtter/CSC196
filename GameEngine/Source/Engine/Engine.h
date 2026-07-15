@@ -13,3 +13,32 @@
 
 #include <iostream>
 #include <vector>
+
+namespace sr {
+	class Engine {
+	public:
+		Engine() = default;
+		Engine(Vector2 v) : m_screen{ v } {}
+
+		bool Initialize();
+		void Shutdown();
+
+		void Update();
+
+		Input& GetInput() { return m_input; }
+		Renderer& GetRenderer() { return m_renderer; }
+		Time& GetTime() { return m_time; }
+
+		void SetScreen(const Vector2& v) { m_screen = v; }
+		const Vector2& GetScreen() const { return m_screen; }
+	private:
+		Input m_input;
+		Renderer m_renderer;
+
+		Time m_time;
+		Vector2 m_screen{ 640,480 };
+
+	};
+
+	extern Engine engine;
+}

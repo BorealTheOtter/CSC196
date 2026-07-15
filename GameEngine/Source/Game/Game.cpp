@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "Player.h"
 
 using namespace sr;
 
@@ -8,18 +9,11 @@ int screenHeight = 1080;
 int main()
 {
     //INITIALIZE
-    Renderer renderer;
-    Input input;
-    Time time;
+    engine.Initialize();
 
-    Actor player{ Transform{ Vector2{(float)(screenWidth / 2), (float)(screenHeight / 2)}, 0, 50 } };
-
-    renderer.Initialize("Game Engine", screenWidth, screenHeight);
-    input.Initialize();
-
-
-    
-
+    Mesh mesh = { {Vector2 {1.5f,0}, Vector2{-1.5f,2}, Vector2 {-0.5f,0}, Vector2{-1.5f,-2}, Vector2 {1.5f,0}}, Color{1.0f,1.0f,1.0f} };
+ 
+    Player player{ Transform{ Vector2{(float)(screenWidth / 2), (float)(screenHeight / 2)}, 0, 20 }, std::vector<Mesh> {mesh}, 400.0f };
     //MAIN LOOP
     bool quit = false;
     while (!quit) {
@@ -30,54 +24,32 @@ int main()
             if (event.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
-            if (input.GetKeyDown(SDL_SCANCODE_ESCAPE)) {
+            if (engine.GetInput().GetKeyDown(SDL_SCANCODE_ESCAPE)) {
                 quit = true;
             }
         }
 
-        input.Update();
-        time.Tick();
+        engine.GetInput().Update();
+        engine.GetTime().Tick();
 
+        player.SetRotation(player.GetTransform().rotation + (90.0f * engine.GetTime().GetDeltaTime()));
 
-
-
-        //      if (input.GetKeyPressed(SDL_SCANCODE_SPACE)) { std::cout << "Pressed" << std::endl; }
-        //      if (input.GetKeyDown(SDL_SCANCODE_SPACE)) { std::cout << "Down" << std::endl; }
-        //      if (input.GetKeyReleased(SDL_SCANCODE_SPACE)) { std::cout << "Released" << std::endl; }
-
-        //      if (input.GetMousePressed(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Pressed" << std::endl; }
-        //      if (input.GetMouseDown(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Down" << std::endl; }
-        //      if (input.GetMouseReleased(sr::Input::MouseButton::LEFT)) { std::cout << "Mouse Released" << std::endl; }
-
-
-
-
-
-
-            sr::Vector2 vel{ 0.0f, 0.0f };
-            if (input.GetKeyDown(SDL_SCANCODE_W)) { vel.y -= 400.0f; };
-            if (input.GetKeyDown(SDL_SCANCODE_A)) { vel.x -= 400.0f; };
-            if (input.GetKeyDown(SDL_SCANCODE_S)) { vel.y += 400.0f; };
-            if (input.GetKeyDown(SDL_SCANCODE_D)) { vel.x += 400.0f; };
-
-            player.setVelocity(vel);
-            player.Update(time.GetDeltaTime(), (float)renderer.GetWidth(), (float)renderer.GetHeight());
-
+        player.Update(engine.GetTime().GetDeltaTime(), engine.GetScreen().x, engine.GetScreen().y);
 
             //RENDER
-            renderer.SetColor(0, 0, 0);
-            renderer.Clear();
+            engine.GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
+            engine.GetRenderer().Clear();
 
-            renderer.SetColor(255, 255, 255);
+            engine.GetRenderer().SetColor(1.0f, 1.0f, 1.0f);
             
 
-            player.Draw(renderer);
+            player.Draw(engine.GetRenderer());
 
 
-            renderer.Present();
+            engine.GetRenderer().Present();
         }
         //SHUTDOWN
-        renderer.Quit();
+    engine.Shutdown();
 
         return 0;
 

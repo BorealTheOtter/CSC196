@@ -14,9 +14,10 @@ namespace sr
 	}
 
 	void Actor::Draw(const Renderer& renderer) const {
-		renderer.SetColor(255, 255, 255);
-		renderer.DrawFillRect(m_transform.pos.x - (m_transform.scale * 0.5f),
-							  m_transform.pos.y - (m_transform.scale * 0.5f),
-							  m_transform.scale, m_transform.scale);
+		
+		renderer.DrawModel(m_model, m_transform);
+
+		//renderer.SetColorF(m_mesh.GetColor());
+		//renderer.DrawFillRect(m_transform.pos.x - (m_transform.scale * 0.5f),m_transform.pos.y - (m_transform.scale * 0.5f),m_transform.scale, m_transform.scale);
 	}
 }

@@ -1,9 +1,15 @@
 #pragma once
+#include <cassert>
 
 namespace sr 
 {
 	struct Vector3 {
-		float x, y, z;
+		
+		union
+		{
+			struct { float x, y, z; };
+			struct { float r, g, b; };
+		};
 
 		Vector3() = default;
 		Vector3(float x, float y, float z) : x{ x }, y{ y }, z{ z } {}
@@ -42,5 +48,5 @@ namespace sr
 		Vector3 Normalize() const { return (*this) / Length(); }
 		float Dot(const Vector3& v) const { return (this->x * v.x) + (this->y * v.y) + (this->z * v.z); }
 	};
-
+	using Color = Vector3;
 }
