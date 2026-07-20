@@ -1,14 +1,26 @@
 #pragma once
 
+#include <string>
+
 #include "Transform.h"
 #include "Model.h"
 
 namespace sr
 {
+	struct ActorDesc 
+	{
+		Transform transform;
+		Vector2 velocity{ 0,0 };
+		Model model;
+		std::string name;
+		std::string tag;
+	};
+
 	class Actor
 	{
 	public:
 		Actor() = default;
+		Actor(const ActorDesc& ad) : m_transform{ ad.transform }, m_velocity{ ad.velocity }, m_model{ ad.model } {};
 		Actor(const Transform& t) : m_transform{ t } {}
 		Actor(const Transform& t, const Model& m) : m_transform{ t }, m_model{ m } {}
 
@@ -24,8 +36,14 @@ namespace sr
 
 		const Vector2& GetVelocity() const { return m_velocity; }
 		void SetVelocity(const Vector2& velocity) { m_velocity = velocity; }
-
+		void AddVelocity(const Vector2& velocity) { m_velocity += velocity; }
+		
+		const std::string& GetName() const { return m_name; }
+		const std::string& GetTag() const { return m_tag; }
 	protected:
+		std::string m_name;
+		std::string m_tag;
+
 		Transform m_transform;
 		Vector2 m_velocity{ 0,0 };
 
