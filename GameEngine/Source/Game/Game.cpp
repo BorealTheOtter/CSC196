@@ -2,17 +2,25 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#include <fmod.hpp>
+
 using namespace sr;
 
 
 int main()
 {
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
     //INITIALIZE
     engine.Initialize();
 
     Scene scene{};
 
-
+    
 
     Mesh mesh = { {Vector2 {0,1}, Vector2{0,-1}, Vector2 {-1.5f,-2}, Vector2{-0.5f,0}, Vector2 {-1.5f,2}, Vector2 {0,1}}, Color{1.0f,1.0f,1.0f} };
 
@@ -48,6 +56,21 @@ int main()
         scene.AddActor(new Enemy{ ed });
     }
 
+    std::vector<FMOD::Sound*> sounds;
+
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
 
 
     //MAIN LOOP
@@ -64,6 +87,13 @@ int main()
                 quit = true;
             }
         }
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1)) { audio->playSound(sounds[0], nullptr, false, nullptr); }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2)) { audio->playSound(sounds[1], nullptr, false, nullptr); }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3)) { audio->playSound(sounds[2], nullptr, false, nullptr); }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_4)) { audio->playSound(sounds[3], nullptr, false, nullptr); }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_5)) { audio->playSound(sounds[4], nullptr, false, nullptr); }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_6)) { audio->playSound(sounds[5], nullptr, false, nullptr); }
 
         engine.GetInput().Update();
         engine.GetTime().Tick();
