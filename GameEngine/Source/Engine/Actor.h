@@ -5,6 +5,7 @@
 
 #include "Transform.h"
 #include "Model.h"
+#include "Scene.h"
 
 namespace sr
 {
@@ -41,6 +42,9 @@ namespace sr
 		
 		const std::string& GetName() const { return m_name; }
 		const std::string& GetTag() const { return m_tag; }
+
+
+
 	protected:
 		std::string m_name;
 		std::string m_tag;

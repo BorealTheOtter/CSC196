@@ -18,8 +18,7 @@
 namespace sr {
 	class Engine {
 	public:
-		Engine() = default;
-		Engine(Vector2 v) : m_screen{ v } {}
+		static Engine& Get() { static Engine engine{ Vector2{1920,1080} }; return engine; }
 
 		bool Initialize();
 		void Shutdown();
@@ -32,6 +31,11 @@ namespace sr {
 
 		void SetScreen(const Vector2& v) { m_screen = v; }
 		const Vector2& GetScreen() const { return m_screen; }
+
+
+	private:
+		Engine(Vector2 v) : m_screen{ v } {}
+		Engine() = default;
 	private:
 		Input m_input;
 		Renderer m_renderer;
@@ -40,6 +44,4 @@ namespace sr {
 		Vector2 m_screen{ 640,480 };
 
 	};
-
-	extern Engine engine;
 }

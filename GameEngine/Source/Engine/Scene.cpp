@@ -2,6 +2,11 @@
 #include "Scene.h"
 
 namespace sr {
+	
+	void Scene::AddActor(Actor* actor) { 
+		m_actors.push_back(actor);
+	}
+
 	void Scene::Update(float dt,float width, float height)
 	{
 		for (Actor* actor : m_actors)

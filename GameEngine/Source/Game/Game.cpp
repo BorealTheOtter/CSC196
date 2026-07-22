@@ -16,7 +16,7 @@ int main()
     audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
     //INITIALIZE
-    engine.Initialize();
+    Engine::Get().Initialize();
 
     Scene scene{};
 
@@ -34,7 +34,7 @@ int main()
     PlayerDesc pd;
     pd.name = "Player";
     pd.model = playerModel;
-    pd.transform = Transform{ Vector2{(float)(engine.GetScreen().x / 2), (float)(engine.GetScreen().y / 2)}, 0, 20 };
+    pd.transform = Transform{ Vector2{(float)(Engine::Get().GetScreen().x / 2), (float)(Engine::Get().GetScreen().y / 2)}, 0, 20 };
     pd.speed = 400.0f;
  
     Player* player = new Player{pd};
@@ -42,7 +42,7 @@ int main()
     EnemyDesc ed;
     ed.name = "Enemy";
     ed.model = enemyModel;
-    ed.transform = Transform{ Vector2{RandomFloat(engine.GetScreen().x), RandomFloat(engine.GetScreen().y)}, 0, 10 };
+    ed.transform = Transform{ Vector2{RandomFloat(Engine::Get().GetScreen().x), RandomFloat(Engine::Get().GetScreen().y)}, 0, 10 };
     ed.speed = 300.0f;
     
 
@@ -52,7 +52,7 @@ int main()
     scene.AddActor(player);
 
     for (int i = 0; i < 10; ++i) {
-        ed.transform = Transform{ Vector2{RandomFloat(engine.GetScreen().x), RandomFloat(engine.GetScreen().y)}, 0, 10 };
+        ed.transform = Transform{ Vector2{RandomFloat(Engine::Get().GetScreen().x), RandomFloat(Engine::Get().GetScreen().y)}, 0, 10 };
         scene.AddActor(new Enemy{ ed });
     }
 
@@ -83,39 +83,39 @@ int main()
             if (event.type == SDL_EVENT_QUIT) {
                 quit = true;
             }
-            if (engine.GetInput().GetKeyDown(SDL_SCANCODE_ESCAPE)) {
+            if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_ESCAPE)) {
                 quit = true;
             }
         }
 
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1)) { audio->playSound(sounds[0], nullptr, false, nullptr); }
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2)) { audio->playSound(sounds[1], nullptr, false, nullptr); }
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3)) { audio->playSound(sounds[2], nullptr, false, nullptr); }
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_4)) { audio->playSound(sounds[3], nullptr, false, nullptr); }
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_5)) { audio->playSound(sounds[4], nullptr, false, nullptr); }
-        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_6)) { audio->playSound(sounds[5], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_1)) { audio->playSound(sounds[0], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_2)) { audio->playSound(sounds[1], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_3)) { audio->playSound(sounds[2], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_4)) { audio->playSound(sounds[3], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_5)) { audio->playSound(sounds[4], nullptr, false, nullptr); }
+        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_6)) { audio->playSound(sounds[5], nullptr, false, nullptr); }
 
-        engine.GetInput().Update();
-        engine.GetTime().Tick();
+        Engine::Get().GetInput().Update();
+        Engine::Get().GetTime().Tick();
 
-        float dt = engine.GetTime().GetDeltaTime();
+        float dt = Engine::Get().GetTime().GetDeltaTime();
 
-        scene.Update(dt, engine.GetScreen().x, engine.GetScreen().y);
+        scene.Update(dt, Engine::Get().GetScreen().x, Engine::Get().GetScreen().y);
 
             //RENDER
-            engine.GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
-            engine.GetRenderer().Clear();
+            Engine::Get().GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
+            Engine::Get().GetRenderer().Clear();
 
-            engine.GetRenderer().SetColor(1.0f, 1.0f, 1.0f);
+            Engine::Get().GetRenderer().SetColor(1.0f, 1.0f, 1.0f);
             
 
-            scene.Draw(engine.GetRenderer());
+            scene.Draw(Engine::Get().GetRenderer());
 
 
-            engine.GetRenderer().Present();
+            Engine::Get().GetRenderer().Present();
         }
         //SHUTDOWN
-    engine.Shutdown();
+    Engine::Get().Shutdown();
 
         return 0;
 

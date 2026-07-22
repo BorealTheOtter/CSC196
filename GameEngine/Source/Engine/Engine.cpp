@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 namespace sr {
-	Engine engine(Vector2{ 1920,1080 });
+	
 
 	bool Engine::Initialize()
 	{
