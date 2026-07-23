@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Assets.h"
 
 #include <fmod.hpp>
 
@@ -9,6 +10,56 @@ using namespace sr;
 
 int main()
 {
+    // get current working directory
+    std::cout << "Directory Operations:\n";
+    std::cout << "Working directory: " << sr::GetWorkingDirectory() << "\n";
+
+    // set working directory (current working directory + "Assets")
+    std::cout << "Setting directory to 'Assets'...\n";
+    sr::SetWorkingDirectory("Assets");
+    std::cout << "New directory: " << sr::GetWorkingDirectory() << "\n\n";
+
+    // get filenames in the working directory
+    std::cout << "Files in Directory:\n";
+    auto filenames = sr::GetFilesInDirectory(sr::GetWorkingDirectory());
+    for (const auto& filename : filenames)
+    {
+        std::cout << filename << "\n";
+    }
+    std::cout << "\n";
+
+    // get filename info
+    if (!filenames.empty())
+    {
+        // get filename
+        std::string str = sr::GetFilename(filenames[0]);
+        std::cout << "Filename: " << str << "\n";
+
+        // get extension
+        str = sr::GetFileExtension(filenames[0]);
+        std::cout << "Extension: " << str << "\n";
+
+        // get filename no extension
+        str = sr::GetFilenameNoExtension(filenames[0]);
+        std::cout << "Filename No Extension: " << str << "\n\n";
+    }
+
+    // read and display text file
+    std::cout << "Text File Reading:\n";
+    std::string str;
+    if (sr::ReadTextFile("test.txt", str))
+    {
+        std::cout << str << "\n";
+    }
+
+    // write to text file
+    std::cout << "Text File Writing:\n";
+    sr::WriteTextFile("test.txt", "Hello, World!", true);
+    if (sr::ReadTextFile("test.txt", str))
+    {
+        std::cout << str << "\n";
+    }
+
     FMOD::System* audio;
     FMOD::System_Create(&audio);
 
@@ -24,26 +75,21 @@ int main()
 
     Mesh mesh = { {Vector2 {0,1}, Vector2{0,-1}, Vector2 {-1.5f,-2}, Vector2{-0.5f,0}, Vector2 {-1.5f,2}, Vector2 {0,1}}, Color{1.0f,1.0f,1.0f} };
 
-    std::vector<Mesh> playerMeshes = { mesh, Mesh{ {Vector2{1.5f, 0}, Vector2 {0,1}, Vector2{0,-1}, Vector2{1.5f, 0}}, Color{0.0f,1.0f,1.0f}} };
-
-    std::vector<Mesh> enemyMeshes = { mesh, Mesh{ {Vector2{1.5f, 0}, Vector2 {0,1}, Vector2{0,-1}, Vector2{1.5f, 0}}, Color{1.0f,0.0f,0.0f}} };
-
-    Model playerModel = playerMeshes;
-    Model enemyModel = enemyMeshes;
-
     PlayerDesc pd;
     pd.name = "Player";
-    pd.model = playerModel;
+    pd.model = assets::playerModel;
     pd.transform = Transform{ Vector2{(float)(Engine::Get().GetScreen().x / 2), (float)(Engine::Get().GetScreen().y / 2)}, 0, 20 };
     pd.speed = 400.0f;
+    pd.damping = 1.0f;
  
     Player* player = new Player{pd};
 
     EnemyDesc ed;
     ed.name = "Enemy";
-    ed.model = enemyModel;
+    ed.model = assets::enemyModel;
     ed.transform = Transform{ Vector2{RandomFloat(Engine::Get().GetScreen().x), RandomFloat(Engine::Get().GetScreen().y)}, 0, 10 };
     ed.speed = 300.0f;
+    ed.damping = 1.1f;
     
 
     
@@ -51,7 +97,7 @@ int main()
     
     scene.AddActor(player);
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 1000; ++i) {
         ed.transform = Transform{ Vector2{RandomFloat(Engine::Get().GetScreen().x), RandomFloat(Engine::Get().GetScreen().y)}, 0, 10 };
         scene.AddActor(new Enemy{ ed });
     }

@@ -11,6 +11,7 @@
 #include "EngineTime.h"
 #include "Actor.h"
 #include "Scene.h"
+#include "File.h"
 
 #include <iostream>
 #include <vector>
@@ -32,7 +33,8 @@ namespace sr {
 		void SetScreen(const Vector2& v) { m_screen = v; }
 		const Vector2& GetScreen() const { return m_screen; }
 
-
+		Engine(const Engine&) = delete;
+		Engine& operator = (const Engine&) = delete;
 	private:
 		Engine(Vector2 v) : m_screen{ v } {}
 		Engine() = default;

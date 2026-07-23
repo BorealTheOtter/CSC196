@@ -5,14 +5,17 @@
 
 #include "Transform.h"
 #include "Model.h"
-#include "Scene.h"
+
 
 namespace sr
 {
+	class Scene;
+
 	struct ActorDesc 
 	{
 		Transform transform;
 		Vector2 velocity{ 0,0 };
+		float damping = 0.0f;
 		Model model;
 		std::string name;
 		std::string tag;
@@ -22,7 +25,7 @@ namespace sr
 	{
 	public:
 		Actor() = default;
-		Actor(const ActorDesc& ad) : m_transform{ ad.transform }, m_velocity{ ad.velocity }, m_model{ ad.model } {};
+		Actor(const ActorDesc& ad) : m_transform{ ad.transform }, m_velocity{ ad.velocity }, m_model{ ad.model }, m_name{ ad.name }, m_tag{ ad.tag }, m_damping{ad.damping} {};
 		Actor(const Transform& t) : m_transform{ t } {}
 		Actor(const Transform& t, const Model& m) : m_transform{ t }, m_model{ m } {}
 
@@ -43,7 +46,9 @@ namespace sr
 		const std::string& GetName() const { return m_name; }
 		const std::string& GetTag() const { return m_tag; }
 
+		Scene* GetScene() { return m_scene; }
 
+		friend Scene;
 
 	protected:
 		std::string m_name;
@@ -51,7 +56,9 @@ namespace sr
 
 		Transform m_transform;
 		Vector2 m_velocity{ 0,0 };
+		float m_damping = 0.0f;
 
 		Model m_model;
+		Scene* m_scene = nullptr;
 	};
 }

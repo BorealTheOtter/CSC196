@@ -3,7 +3,8 @@
 
 namespace sr {
 	
-	void Scene::AddActor(Actor* actor) { 
+	void Scene::AddActor(Actor* actor) {
+		actor->m_scene = this;
 		m_actors.push_back(actor);
 	}
 

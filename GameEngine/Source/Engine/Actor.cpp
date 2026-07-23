@@ -8,6 +8,7 @@ namespace sr
 	void Actor::Update(float dt, const float width, const float height)
 	{
 		m_transform.pos += (m_velocity * dt);
+		m_velocity *= (1.0f / (1.0f + m_damping * dt));
 
 		m_transform.pos.x = math::Wrap(m_transform.pos.x, 0.0f, width);
 		m_transform.pos.y = math::Wrap(m_transform.pos.y, 0.0f, height);
